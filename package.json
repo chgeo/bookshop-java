@@ -23,6 +23,9 @@
         "deploy": "cds deploy"
     },
     "cds": {
+        "odata": {
+            "version": "v4"
+        },
         "service": {
             "model": "srv/"
         },
