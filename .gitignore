@@ -22,3 +22,7 @@ connection.properties
 metadata.xml
 .cds_gen.log
 default-env.json
+/bookshop-java.mtar
+package-lock.json
+db/package-lock.json
+srv/.settings/org.eclipse.jdt.core.prefs
