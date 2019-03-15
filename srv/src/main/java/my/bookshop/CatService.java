@@ -5,18 +5,17 @@ package my.bookshop;
 
 import java.util.Arrays;
 import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.cloud.sdk.service.prov.api.DataSourceHandler;
 import com.sap.cloud.sdk.service.prov.api.EntityData;
 import com.sap.cloud.sdk.service.prov.api.ExtensionHelper;
+import com.sap.cloud.sdk.service.prov.api.annotations.BeforeCreate;
+import com.sap.cloud.sdk.service.prov.api.exits.BeforeCreateResponse;
 import com.sap.cloud.sdk.service.prov.api.internal.DefaultEntityData;
 import com.sap.cloud.sdk.service.prov.api.internal.HasMetadata;
-import com.sap.cloud.sdk.service.prov.api.operations.Create;
 import com.sap.cloud.sdk.service.prov.api.request.CreateRequest;
-import com.sap.cloud.sdk.service.prov.api.response.CreateResponse;
 import com.sap.cloud.sdk.service.prov.api.response.ErrorResponse;
 
 /**
@@ -43,8 +42,8 @@ public class CatService {
      */
     private static final String STOCK = "stock";
 
-    @Create(entity = "OrderItems", serviceName = "CatalogService")
-    public CreateResponse create(CreateRequest req, ExtensionHelper extensionHelper) throws Exception {
+    @BeforeCreate(entity = "OrderItems", serviceName = "CatalogService")
+    public BeforeCreateResponse create(CreateRequest req, ExtensionHelper extensionHelper) throws Exception {
         LOG.info("Creating Order Item");
         // validation of the request
         EntityData orderItem = req.getData();
@@ -67,16 +66,13 @@ public class CatService {
             return getErrorResponse(400, "Not enough books on stock");
         }
 
-        // create the order item
-        EntityData createdOrderItem = handler.executeInsert(orderItem, true);
-
         // update the book with the new stock
         stock -= amount;
         EntityData updatedBook = new DefaultEntityData(Collections.singletonMap(STOCK, stock),
                 ((HasMetadata) book).getEntityMetadata());
         handler.executeUpdate(updatedBook, Collections.singletonMap(ID, id), false);
 
-        return CreateResponse.setSuccess().setData(createdOrderItem).response();
+        return BeforeCreateResponse.setSuccess().response();
     }
 
     /**
@@ -87,7 +83,7 @@ public class CatService {
      * @return an {@link ErrorResponse} containing the status code {@code stausCode}
      *         and message {@code msg}
      */
-    private static CreateResponse getErrorResponse(int statusCode, String msg) {
-        return CreateResponse.setError(ErrorResponse.getBuilder().setStatusCode(statusCode).setMessage(msg).response());
+    private static BeforeCreateResponse getErrorResponse(int statusCode, String msg) {
+        return BeforeCreateResponse.setError(ErrorResponse.getBuilder().setStatusCode(statusCode).setMessage(msg).response());
     }
 }
