@@ -1,3 +1,45 @@
+# Serving UI with tomcat
+You can serve the static content for the UI with the same tomcat server you are using to run the odata service. To do this no project changes are necessary. You just need to configure your local tomcat server.
+
+1. Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system.
+2. Via the "projects" view go to the "Servers" project and open the server.xml. Then add the following lines
+```diff
+    <Engine defaultHost="localhost" name="Catalina">
+
+      <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
++       <Valve className="org.apache.catalina.valves.rewrite.RewriteValve" />
+
+        <!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html -->
+        <!--
+        <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
+        -->
+		<Valve className="org.apache.catalina.valves.ErrorReportValve" showServerInfo="false"/>
+		<Valve className="com.sap.core.js.monitoring.tomcat.valve.RequestTracingValve"/>
+        <Valve className="com.sap.js.statistics.tomcat.valve.RequestTracingValve"/>
+        <Valve className="com.sap.cloud.runtime.impl.bridge.tenant.TenantValveWrapper"/>
+        <!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern="common" -->
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="log" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
+      
++     <Context docBase="/Users/d064456/git/bookshop-java/node_modules/@sap/capm-samples-bookshop/app/" path=""/>        
+      <Context docBase="bookshop-java-srv" path="/bookshop-java-srv" reloadable="true" source="org.eclipse.jst.jee.server:bookshop-java-srv"/></Host>
+    </Engine>
+  </Service>
+</Server>
+``` 
+Note that the order of the ```Context``` lines is important. Also adapt the path so that it points to your project. The new ```Context``` configures the tomcat to serve the UI. The ```Valve``` is used to rewrite certain URLs that are requested by the UI.
+
+3. On the file system go to the directory of your tomcat server. Then go to ```conf/Catalina/localhost/``` and create a new    file ```rewrite.config```. Add the following content to the file and save it:
+   ```
+   RewriteCond %{REQUEST_URI} !^(.*)/webapp(.*)$
+   RewriteRule  ^/admin/(.*)$  /bookshop-java-srv/odata/v4/AdminService/$1
+   RewriteRule  ^/catalog/(.*)$  /bookshop-java-srv/odata/v4/CatalogService/$1
+   ```
+
+   Now start the server and open http://localhost:8080. The rewrite rules are necessary because the UI is expecting the odata endpoints under the paths [/admin/](/admin/) and [/catalog/](/catalog/)
+
 # Getting Started
 
 Welcome to your new project. It contains a few files and folders following our **recommended project layout**:
