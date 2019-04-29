@@ -18,16 +18,45 @@ import com.sap.cloud.sdk.service.prov.api.internal.HasMetadata;
 import com.sap.cloud.sdk.service.prov.api.request.UpdateRequest;
 
 /**
- * @author Marcel Merkle
+ * Custom handler for the Admin Service
  */
 public class AdminService {
-
+    
+    /**
+     * The string identifying the price column of the Books table
+     */
+    private static final String PRICE = "price";
+    
+    /**
+     * The string identifying the ID column of the Books table
+     */
+    private static final String ID = "ID";
+    
+    /**
+     * The string identifying the amount column of the OrderItems table
+     */
+    private static final String AMOUNT = "amount";
+    
+    /**
+     * The string identifying the netAmount column of the OrderItems table
+     */
+    private static final String NET_AMOUNT = "netAmount";
+    
+    /**
+     * The string identifying the book_ID column of the OrderItems table
+     */
+    private static final String BOOK_ID = "book_ID";
+    
+    /**
+     * The string identifying the Books entity
+     */
+    private static final String BOOKS = "Books";
     
     @BeforeUpdate(entity = "OrderItems", serviceName = "AdminService")
     public BeforeUpdateResponse updateOrderItems(UpdateRequest req, ExtensionHelper extensionHelper) throws Exception {
         EntityData orderItem = req.getData();
         // check if amount was updated
-        Integer amount = (Integer) orderItem.getElementValue("amount");
+        Integer amount = (Integer) orderItem.getElementValue(AMOUNT);
         if(amount == null) {
             return BeforeUpdateResponse.setSuccess().response();
         }
@@ -35,10 +64,10 @@ public class AdminService {
         Map<String, Object> itemMap = orderItem.asMap();
         DataSourceHandler handler = extensionHelper.getHandler();
         // get the book price and calculate the netAmount of the order item
-        Integer id = (Integer) orderItem.getElementValue("book_ID");
-        EntityData book = handler.executeRead("Books", Collections.singletonMap("ID", id), Arrays.asList("ID", "price"));
-        double price = ((BigDecimal) book.getElementValue("price")).doubleValue();
-        itemMap.put("netAmount", price * amount);
+        Integer id = (Integer) orderItem.getElementValue(BOOK_ID);
+        EntityData book = handler.executeRead(BOOKS, Collections.singletonMap(ID, id), Arrays.asList(PRICE));
+        double price = ((BigDecimal) book.getElementValue(PRICE)).doubleValue();
+        itemMap.put(NET_AMOUNT, price * amount);
         EntityData result = new DefaultEntityData(itemMap, ((HasMetadata) orderItem).getEntityMetadata());
         
         return BeforeUpdateResponse.setSuccess().setData(result).response();
