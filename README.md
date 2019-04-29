@@ -1,7 +1,7 @@
 # Serving UI with tomcat
 You can serve the static content for the UI with the same tomcat server you are using to run the odata service. To do this no project changes are necessary. You just need to configure your local tomcat server.
 
-1. Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system.
+1. Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
 2. Via the "projects" view go to the "Servers" project and open the server.xml. Then add the following lines
 ```diff
     <Engine defaultHost="localhost" name="Catalina">
