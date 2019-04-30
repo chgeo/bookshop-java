@@ -1,0 +1,98 @@
+{
+        "format_version": 1,
+        "imports": [
+                {
+                        "target_table": "MY_BOOKSHOP_BOOKS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "my.bookshop-Books.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "ID",
+                                        "TITLE",
+                                        "AUTHOR_ID",
+                                        "STOCK",
+                                        "PRICE",
+                                        "CURRENCY_CODE"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "MY_BOOKSHOP_AUTHORS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "my.bookshop-Authors.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "ID",
+                                        "NAME",
+                                        "DATEOFBIRTH",
+                                        "PLACEOFBIRTH",
+                                        "DATEOFDEATH",
+                                        "PLACEOFDEATH"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "MY_BOOKSHOP_ORDERS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "my.bookshop-Orders.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "ID",
+                                        "MODIFIEDAT",
+                                        "CREATEDAT",
+                                        "CREATEDBY",
+                                        "MODIFIEDBY",
+                                        "ORDERNO",
+                                        "CURRENCY_CODE"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "MY_BOOKSHOP_ORDERITEMS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "my.bookshop-OrderItems.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "ID",
+                                        "AMOUNT",
+                                        "PARENT_ID",
+                                        "BOOK_ID",
+                                        "NETAMOUNT"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "SAP_COMMON_CURRENCIES",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "sap.common-Currencies.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "CODE",
+                                        "SYMBOL",
+                                        "NAME",
+                                        "DESCR"
+                                ]
+                        }
+                }
+        ]
+}
