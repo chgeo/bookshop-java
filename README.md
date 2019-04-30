@@ -1,246 +1,111 @@
-# Serving UI with tomcat
-You can serve the static content for the UI with the same tomcat server you are using to run the odata service. To do this no project changes are necessary. You just need to configure your local tomcat server.
+# Getting Started
 
-1. Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
-2. Via the "projects" view go to the "Servers" project and open the server.xml. Then add the following lines
-```diff
-    <Engine defaultHost="localhost" name="Catalina">
+Welcome to the bookshop-java project. It contains files and the folder structure with the **recommended project layout**:
+
+## Prerequisites 
+1.  Install **Java 8** (<https://tools.hana.ondemand.com/#cloud>) and set JAVA_HOME. 
+2.  Install **Apache Maven** (<https://maven.apache.org/download.cgi>) and set M2_HOME
+3.  Install **Nodejs V8** and set the sap npm registry using the command:
+ 
+ ```
+    npm set @sap:registry=https://npm.sap.com
+ ```
+4.  Install **Eclipse**. Check the link: <https://github.wdf.sap.corp/cdx/cds-ls4e/wiki/Installation> for compatibility issues.
+5.  Install **SAP Cloud platform tools** in eclipse from the url: <https://tools.hana.ondemand.com/oxygen>
+6.  Install **SAP Cloud Business Application Tools** and  **Multitarget Application Archive Builder** in eclipse from the url: <http://cdstools.mo.sap.corp:1080/sites/eclipse/release/>
+
+## Setting up the Tomcat server
+1.  Download **Java Web Tomcat 8** from <https://tools.hana.ondemand.com/#cloud>
+2.  Open eclipse and goto **File>New>Other**. Select **Server** and click **Next** at the bottom of the window.
+3.  Select server type as **Java Web Tomcat 8 Server** under **SAP**. Click Next.
+4.  Browse to the path where the tomcat sdk is located. Click Next.
+5.  Click Finish.
+
+## Setting up the project using Git
+1.  Clone the project into the desired location using the command below: 
+
+```
+  git clone https://github.wdf.sap.corp/caps/bookshop-java.git
+```
+2.  Import the project as **SAP Cloud Business Application**. Give the path to where **mta.yaml** is located. Also tick the checkbox: Import service modules as Maven Projects. 
+Now you see **bookshop-java** and **bookshop-java-srv** in the project/package explorer view.
+3.  Change the Projects Presentation from Flat to Hierarchical for better understanding.
+4.  Right click on the project, then go to the SAP Cloud Business Application and click Build.
+5.  Right click on the bookshop-java-srv project and Run on server (**Java Web Tomcat 8 Server**).
+6.  Use the link <http://localhost:8080/bookshop-java-srv/odata/v4/> or  
+ <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata> in the browser to check if everything works fine.
+
+## Setting up the **db** module
+1.  Create a service instance named **bookshop-java-hdi-container** using the command below:
+
+```
+   on cloudfoundry: cf create-service hana hdi-shared bookshop-java-hdi-container
+   on XSA: xs create-service hana hdi-shared bookshop-java-hdi-container
+```
+2.  Create service key named **bookshop-java-hdi-container-key** for the service instance **bookshop-java-hdi-container** using the command below:
+
+```
+   on cloudfoundry: cf create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key
+   on XSA: xs create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key
+```
+3.  Get the value of the attribute **VCAP_SERVICES** for the **bookshop-java-db application** and its value for the for using the command:
+
+```
+   on Cloudfoundry: cf env bookshop-java-db
+   on XSA: xs env bookshop-java-db
+   ```
+4.  Replace the value of the attribute **VCAP_SERVICES**  in **default-env.json** under the **db** module.
+5.  Right click on the **db** module and click **deploy** on the **SAP HANA database module** option. 
+The application connects to the container, creates the tables and puts the data from the csv files into the tables. 
+The mapping between csv and the table columns is present in the **Data.hdbtabledata** file.
+
+## Setting up the **srv** module
+1.  Update the **connection.properties** file under **/bookshop-java-srv/src/main/resources/**
+with the corresponding values of **VCAP_SERVICES** (see **step 2** under setting up **db** module)
+2.  Right click on the **bookshop-java-srv**(service module) and click on **build** under **Service module** option.
+This generates the corresponding **csn.json** and service xml files under the **edmx** folder in the **srv** folder and, generates the corresponding database scripts to create the tables and the views.
+
+## Setting up the app module
+1.  Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
+2.  Create a file, rewrite.config inside **/Path-To-Tomcat/neo-java-web-sdk-3.75.12/conf/Catalina**
+3.  Add the lines below in the rewrite.config file: 
+
+```
+   RewriteCond %{REQUEST_URI} !^(.*)/webapp(.*)$ 
+   RewriteRule  ^/admin/(.*)$  /bookshop-java-srv/odata/v4/AdminService/$1
+   RewriteRule  ^/catalog/(.*)$  /bookshop-java-srv/odata/v4/CatalogService/$1
+```
+
+4.  In the Project explorer open the server server.xml inside Servers>Java Web Tomcat8 Server-config and make the following changes:
+
+   ```diff
+     <Engine defaultHost="localhost" name="Catalina">
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
-+       <Valve className="org.apache.catalina.valves.rewrite.RewriteValve" />
-
++       <Valve className="org.apache.catalina.valves.rewrite.RewriteValve"/>
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
         <!--
         <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
         -->
-		<Valve className="org.apache.catalina.valves.ErrorReportValve" showServerInfo="false"/>
-		<Valve className="com.sap.core.js.monitoring.tomcat.valve.RequestTracingValve"/>
+        
+        <Valve className="org.apache.catalina.valves.ErrorReportValve" showServerInfo="false"/>
+        <Valve className="com.sap.core.js.monitoring.tomcat.valve.RequestTracingValve"/>
         <Valve className="com.sap.js.statistics.tomcat.valve.RequestTracingValve"/>
         <Valve className="com.sap.cloud.runtime.impl.bridge.tenant.TenantValveWrapper"/>
         <!-- Access log processes all example.
              Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="log" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
-      
-+     <Context docBase="/Users/d064456/git/bookshop-java/node_modules/@sap/capm-samples-bookshop/app/" path=""/>        
-      <Context docBase="bookshop-java-srv" path="/bookshop-java-srv" reloadable="true" source="org.eclipse.jst.jee.server:bookshop-java-srv"/></Host>
+        
+        <!-- 
+           Make sure that the <Context> order is same as below.
+        -->
++       <Context docBase="/home/D070324/work/CAP/git_projects/bookshop-java/node_modules/@sap/capm-samples-bookshop/app/" path=""/>
+        <Context docBase="bookshop-java-srv" path="/bookshop-java-srv" reloadable="true" source="org.eclipse.jst.jee.server:bookshop-java-srv"/></Host>
+  
     </Engine>
-  </Service>
-</Server>
-``` 
-Note that the order of the ```Context``` lines is important. Also adapt the path so that it points to your project. The new ```Context``` configures the tomcat to serve the UI. The ```Valve``` is used to rewrite certain URLs that are requested by the UI.
-
-3. On the file system go to the directory of your tomcat server. Then go to ```conf/Catalina/localhost/``` and create a new    file ```rewrite.config```. Add the following content to the file and save it:
-   ```
-   RewriteCond %{REQUEST_URI} !^(.*)/webapp(.*)$
-   RewriteRule  ^/admin/(.*)$  /bookshop-java-srv/odata/v4/AdminService/$1
-   RewriteRule  ^/catalog/(.*)$  /bookshop-java-srv/odata/v4/CatalogService/$1
-   ```
-
-   Now start the server and open http://localhost:8080. The rewrite rules are necessary because the UI is expecting the odata endpoints under the paths [/admin/](/admin/) and [/catalog/](/catalog/)
-
-# Getting Started
-
-Welcome to your new project. It contains a few files and folders following our **recommended project layout**:
-
-
-File / Folder | Purpose
----------|----------
-`srv/` | your models and code go here
-`db/` | your database content goes here
-`package.json` | project metadata and configuration
-`readme.md` | this readme
-
-
-The following sections are a quick walkthrough of essential tasks:
-
-<!-- TOC depthFrom:2 depthTo:2 -->
-
-- [Define your first Service and Run it](#define-your-first-service-and-run-it)
-- [Add Data Models](#add-data-models)
-- [Add Databases](#add-databases)
-- [Add Initial Data](#add-initial-data)
-- [Add Custom Logic](#add-custom-logic)
-- [More...](#more)
-
-<!-- /TOC -->
-
-## Define your first Service and Run it
-
-Create a file [srv/cat-service.cds](srv/cat-service.cds) and define a service in there as follows:
-
-```swift
-using { Country, managed } from '@sap/cds/common';
-
-service CatalogService {
-
-  entity Books {
-    key ID : Integer;
-    title  : localized String;
-    author : Association to Authors;
-    stock  : Integer;
-  }
-
-  entity Authors {
-    key ID : Integer;
-    name   : String;
-    books  : Association to many Books on books.author = $self;
-  }
-
-  entity Orders : managed {
-    key ID  : UUID;
-    book    : Association to Books;
-    country : Country;
-    amount  : Integer;
-  }
-}
 ```
 
-
-**[Run that](command:cds.run)** in a terminal to start a generic server:
-```sh
-> cds run
-```
-
-_Cmd/Ctrl-click_ on the link _<http://localhost:4004>_ in the output to open a browser and send requests to your service using the provided links.
-
-
-
-## Add Data Models
-
-Above we used a simplistic 'all-in-one' service definition for a quick start. Usually, you would put your entity definitions into a separate data model and have your **services expose views** on that entities.
-
-Create a file named [db/data-model.cds](db/data-model.cds) and fill it with that:
-
-```swift
-namespace my.bookshop;
-using { Country, managed } from '@sap/cds/common';
-
-entity Books {
-  key ID : Integer;
-  title  : localized String;
-  author : Association to Authors;
-  stock  : Integer;
-}
-
-entity Authors {
-  key ID : Integer;
-  name   : String;
-  books  : Association to many Books on books.author = $self;
-}
-
-entity Orders : managed {
-  key ID  : UUID;
-  book    : Association to Books;
-  country : Country;
-  amount  : Integer;
-}
-```
-
-With that we can adapt our [srv/cat-service.cds](srv/cat-service.cds) to exposing views as follows:
-
-```swift
-using my.bookshop as my from '../db/data-model';
-
-service CatalogService {
-  entity Books    @readonly as projection on my.Books;
-  entity Authors  @readonly as projection on my.Authors;
-  entity Orders @insertonly as projection on my.Orders;
-}
-```
-
-
-## Add Databases
-
-The `cds` runtime ships with built-in generic handlers which automatically serve all CRUD requests SQL databases. We choose _sqlite_ for dev usage as that is already available on Macs ([&rarr; install it on Windows](https://www.sqlite.org/download.html)):
-
-```bash
-npm i sqlite3 -D
-```
-
-Now we can deploy our data model to a sqlite database:
-
-```bash
-cds deploy --to sqlite:my.db
-```
-
-This creates a sqlite database file at _[my.db](my.db)_. In addition, the given configuration is stored to your _package.json_ as your default data source. With that, you can run `cds deploy` subsquently without any arguments.
-
-
-
-## Add Initial Data
-
-Add plain CSV files under `db/csv` to fill your database tables with initial data.
-
-1. Add a filed called [db/csv/my.bookshop-Authors.csv](db/csv/my.bookshop-Authors.csv) and add the following data:
-```csv
-ID;name
-101;Emily Brontë
-107;Charlote Brontë
-150;Edgar Allen Poe
-170;Richard Carpenter
-```
-
-2. Add a file called [db/csv/my.bookshop-Books.csv](db/csv/my.bookshop-Books.csv) and add the following data
-```csv
-ID;title;author_ID;stock
-201;Wuthering Heights;101;12
-207;Jane Eyre;107;11
-251;The Raven;150;333
-252;Eleonora;150;555
-271;Catweazle;170;22
-```
-
-Run [`cds deploy`](command:cds.deploy)  again to have the data filled in.
-
-Then [`cds run`](command:cds.run) the server again and see the data returned.
-
-As we have now a fully cabable SQL database connected, we can leverage the querying capabilities of the generic handlers with requests like that: [.../Authors?$expand=books($select=ID,title)](http://localhost:4004/catalog/Authors?$expand=books($select=ID,title))
-
-
-
-## Add Custom Logic
-( Example for Node.js, skip for Java )
-
-So far, all requests were served automatically by built-in generic service providers.
-You can hook in to these providers to add your domain-specific logic. Just add an equally named `.js` file next to your service definition, i.e. [srv/cat-service.js](srv/cat-service.js), and fill this in:
-
-```js
-module.exports = (srv) => {
-
-  const {Books} = cds.entities ('my.bookshop')
-
-  // Reduce stock of ordered books
-  srv.before ('CREATE', 'Orders', async (req) => {
-    const order = req.data
-    if (!order.amount || order.amount <= 0)  return req.error (400, 'Order at least 1 book')
-    const tx = cds.transaction(req)
-    const affectedRows = await tx.run (
-      UPDATE (Books)
-        .set   ({ stock: {'-=': order.amount}})
-        .where ({ stock: {'>=': order.amount},/*and*/ ID: order.book_ID})
-    )
-    if (affectedRows === 0)  req.error (409, "Sold out, sorry")
-  })
-
-  // Add some discount for overstocked books
-  srv.after ('READ', 'Books', each => {
-    if (each.stock > 111)  each.title += ' -- 11% discount!'
-  })
-
-}
-```
-
-- Just open [.../Books](http://localhost:4004/catalog/Books) in the browser to test the handler for `Books`.
-
-- For the `Orders` handler, you can use this [curl](https://curl.haxx.se/dlwiz/?type=bin) command (or use [Postman](https://www.getpostman.com/) with the data from below):
-  ```sh
-  curl http://localhost:4004/catalog/Orders -X POST -H "Content-Type: application/json" -d '{"book_ID":201, "amount":6}'
-  ```
-
-  After a few more requests the `Sold out` response is returned since the stock would drop below `0`.
-
-## More...
-
-Find more in the [help.sap.com](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/00823f91779d4d42aa29a498e0535cdf.html)
+5.  Right click on the service module(bookshop-java-srv) inside eclipse and run on Server.
+6.  Open the browser and put the url <http://localhost:8080/> in the address bar. The UI is now visible.
