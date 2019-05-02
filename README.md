@@ -66,9 +66,12 @@ with the corresponding values of **VCAP_SERVICES** (see **step 2** under setting
 This generates the corresponding **csn.json** and service xml files under the **edmx** folder in the **srv** folder and, generates the corresponding database scripts to create the tables and the views.
 
 ## Setting up the app module
-1.  Make sure you have selected "Use custom location" as server location in the eclipse server settings. You access these settings by double-clicking on the server in the "server" view. If you already deployed your app to the server, just remove it again to be able to change the location. As location choose the server location on the file system. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
-2.  Create a file, rewrite.config inside **/Path-To-Tomcat/neo-java-web-sdk-3.75.12/conf/Catalina**
-3.  Add the lines below in the rewrite.config file: 
+1.  Open **Servers** view. Servers View can be found under **Window>Show View>Servers**.
+2.  Delete all the deployed applications deployed on **Java Web Tomcat8 Server**, if any.
+3.  Double click on the **Java Web Tomcat8 Server** to open the Overview.
+4.  Under **Server Locations** drop-down, select **Use custom location**. Provide the **Server path**. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
+5.  Create a file, **rewrite.config** inside **/Path-To-Tomcat/neo-java-web-sdk-3.75.12/conf/Catalina/localhost**
+6.  Add the lines below in the **rewrite.config** file: 
 
 ```
    RewriteCond %{REQUEST_URI} !^(.*)/webapp(.*)$ 
@@ -76,7 +79,7 @@ This generates the corresponding **csn.json** and service xml files under the **
    RewriteRule  ^/catalog/(.*)$  /bookshop-java-srv/odata/v4/CatalogService/$1
 ```
 
-4.  In the Project explorer open the server server.xml inside Servers>Java Web Tomcat8 Server-config and make the following changes:
+7.  In the Project explorer open the server **server.xml** inside **Servers>Java Web Tomcat8 Server-config** and make the following changes:
 
    ```diff
      <Engine defaultHost="localhost" name="Catalina">
@@ -107,7 +110,7 @@ This generates the corresponding **csn.json** and service xml files under the **
     </Engine>
 ```
 
-5.  Right click on the service module(bookshop-java-srv) inside eclipse and run on Server.
+5.  Right click on the service module(**bookshop-java-srv**) inside eclipse and run on Server.
 6.  Open the browser and put the url <http://localhost:8080/> in the address bar. The UI is now visible.
 
 ## Futher Reading
@@ -115,4 +118,3 @@ This generates the corresponding **csn.json** and service xml files under the **
 2. [cdx/cds-ls4e](https://github.wdf.sap.corp/cdx/cds-ls4e/wiki)
 3. [SAP Cloud Platform Documentation](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/00823f91779d4d42aa29a498e0535cdf.html) 
 4. [SAP HANA Core Data Services (CDS) Reference](https://help.sap.com/viewer/09b6623836854766b682356393c6c416/2.0.02/en-US)
-
