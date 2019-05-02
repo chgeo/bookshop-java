@@ -109,7 +109,6 @@ This generates the corresponding **csn.json** and service xml files under the **
   
     </Engine>
 ```
-
 5.  Right click on the service module(**bookshop-java-srv**) inside eclipse and run on Server.
 6.  Open the browser and put the url <http://localhost:8080/> in the address bar. The UI is now visible.
 
@@ -118,3 +117,4 @@ This generates the corresponding **csn.json** and service xml files under the **
 2. [cdx/cds-ls4e](https://github.wdf.sap.corp/cdx/cds-ls4e/wiki)
 3. [SAP Cloud Platform Documentation](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/00823f91779d4d42aa29a498e0535cdf.html) 
 4. [SAP HANA Core Data Services (CDS) Reference](https://help.sap.com/viewer/09b6623836854766b682356393c6c416/2.0.02/en-US)
+
