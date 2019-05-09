@@ -5,14 +5,15 @@ Welcome to the bookshop-java project. It contains files and the folder structure
 ## Prerequisites 
 1.  Install **Java 8** (<https://tools.hana.ondemand.com/#cloud>) and set JAVA_HOME. 
 2.  Install **Apache Maven** (<https://maven.apache.org/download.cgi>) and set M2_HOME
-3.  Install **Nodejs V8** and set the sap npm registry using the command:
+3.  Configure **Maven** for the SAP build landscape by downloading [settings.xml](http://nexus.wdf.sap.corp:8081/nexus/service/local/templates/settings/LeanDI/content) and save it to **<USER_HOME>/.m2/settings.xml**.
+4.  Install **Nodejs V8** and set the sap npm registry using the command:
  
  ```
     npm set @sap:registry=https://npm.sap.com
  ```
-4.  Install **Eclipse**. Check the link: <https://github.wdf.sap.corp/cdx/cds-ls4e/wiki/Installation> for compatibility issues.
-5.  Install **SAP Cloud platform tools** in eclipse from the url: <https://tools.hana.ondemand.com/oxygen>
-6.  Install **SAP Cloud Business Application Tools** and  **Multitarget Application Archive Builder** in eclipse from the url: <http://cdstools.mo.sap.corp:1080/sites/eclipse/release/>
+5.  Install **Eclipse**. Check the link: <https://github.wdf.sap.corp/cdx/cds-ls4e/wiki/Installation> for compatibility issues.
+6.  Install **SAP Cloud platform tools** in eclipse from the url: <https://tools.hana.ondemand.com/oxygen>
+7.  Install **SAP Cloud Business Application Tools** and  **Multitarget Application Archive Builder** in eclipse from the url: <http://cdstools.mo.sap.corp:1080/sites/eclipse/release/>
 
 ## Setting up the Tomcat server
 1.  Download **Java Web Tomcat 8** from <https://tools.hana.ondemand.com/#cloud>
