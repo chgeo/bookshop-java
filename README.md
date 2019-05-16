@@ -37,11 +37,11 @@ Now you see **bookshop-java** and **bookshop-java-srv** in the project/package e
   <http://localhost:8080/bookshop-java-srv/odata/v4/> \
   <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata>
 
-## Setting up the **db** module
+## Connecting a HANA Database
 
 In order to connect the bookshop to a database, you need a SAP HANA and fill it with sample data. 
 
- One way to do this is to get a HANA instance in SAP CP, create a service binding and deploy the "db" module which creates the schema and sample data:
+One way to do this is to get a HANA instance in SAP CP, create a service binding and fetch the credentials of the HANA instance:
 
 1. Log in to CloudFoundry
 
@@ -54,12 +54,11 @@ In order to connect the bookshop to a database, you need a SAP HANA and fill it 
    cf create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key   
 ```
 4.  Get the value of the attribute **VCAP_SERVICES** for the **bookshop-java-db application** and its value for the for using the command:
-
 ```
    cf env bookshop-java-db   
 ```
-5.  Replace the value of the attribute **VCAP_SERVICES**  in **default-env.json** under the **db** module.
-6.  Right click on the **db** module and click **deploy** on the **SAP HANA database module** option. 
+5.  Replace the value of the attribute **VCAP_SERVICES** in **default-env.json** under the **db** module in Eclipse.
+6.  In **Project Explorer**, right click on the **db** module and click **deploy** on the **SAP HANA database module** option. 
 The application connects to the container, creates the tables and puts the data from the csv files into the tables. 
 The mapping between csv and the table columns is present in the **Data.hdbtabledata** file.
 
