@@ -1,6 +1,6 @@
 # Getting Started
 
-Welcome to the bookshop-java project. It contains files and the folder structure with the **recommended project layout**:
+Welcome to the bookshop-java project. The following sections describe how to setup, build and deploy the project. It demonstrates a recommended project layout for CAP applications.
 
 ## Prerequisites 
 1.  Install **Java 8** (<https://tools.hana.ondemand.com/#cloud>) and set JAVA_HOME. 
