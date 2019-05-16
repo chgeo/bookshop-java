@@ -33,7 +33,7 @@ Now you see **bookshop-java** and **bookshop-java-srv** in the project/package e
 
 ## Deploying the Project to a Local Tomcat Server
 1.  In **Project Explorer**, right click on the bookshop-java-srv project and Run on server (**Java Web Tomcat 8 Server**).
-2.  Use the following links in the browser to check if everything works fine. \
+2.  Use the following links in the browser to check if everything works fine: \
   <http://localhost:8080/bookshop-java-srv/odata/v4/> \
   <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata>
 
