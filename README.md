@@ -37,26 +37,27 @@ Now you see **bookshop-java** and **bookshop-java-srv** in the project/package e
   <http://localhost:8080/bookshop-java-srv/odata/v4/> \
   <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata>
 
-
 ## Setting up the **db** module
-1.  Create a service instance named **bookshop-java-hdi-container** using the command below:
 
+In order to connect the bookshop to a database, you need a SAP HANA and fill it with sample data. 
+
+- One way to do this is to get a HANA instance in SAP CP:
+
+1. Log in to CloudFoundry
+
+1.  Create a service instance named **bookshop-java-hdi-container** using the command below:
 ```
-   on cloudfoundry: cf create-service hana hdi-shared bookshop-java-hdi-container
-   on XSA: xs create-service hana hdi-shared bookshop-java-hdi-container
+   create-service hana hdi-shared bookshop-java-hdi-container  
 ```
 2.  Create service key named **bookshop-java-hdi-container-key** for the service instance **bookshop-java-hdi-container** using the command below:
-
 ```
-   on cloudfoundry: cf create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key
-   on XSA: xs create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key
+   cf create-service-key bookshop-java-hdi-container bookshop-java-hdi-container-key   
 ```
 3.  Get the value of the attribute **VCAP_SERVICES** for the **bookshop-java-db application** and its value for the for using the command:
 
 ```
-   on Cloudfoundry: cf env bookshop-java-db
-   on XSA: xs env bookshop-java-db
-   ```
+   cf env bookshop-java-db   
+```
 4.  Replace the value of the attribute **VCAP_SERVICES**  in **default-env.json** under the **db** module.
 5.  Right click on the **db** module and click **deploy** on the **SAP HANA database module** option. 
 The application connects to the container, creates the tables and puts the data from the csv files into the tables. 
