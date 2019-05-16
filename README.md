@@ -29,7 +29,7 @@ Welcome to the bookshop-java project. The following sections describe how to set
 2.  Import the project as **SAP Cloud Business Application** using **File>Import>SAP Cloud Business Application**. Give the path to where **mta.yaml** is located within the cloned repository. Also tick the checkbox: Import service modules as Maven Projects. 
 Now you see **bookshop-java** and **bookshop-java-srv** in the project/package explorer view.
 3.  Change the Projects Presentation from Flat to Hierarchical for better understanding.
-4.  Right click on the project, then go to the SAP Cloud Business Application and click Build.
+4.  In **Project Explorer**, right click on the project, then go to the SAP Cloud Business Application and click Build.
 5.  Right click on the bookshop-java-srv project and Run on server (**Java Web Tomcat 8 Server**).
 6.  Use the link <http://localhost:8080/bookshop-java-srv/odata/v4/> or  
  <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata> in the browser to check if everything works fine.
