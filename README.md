@@ -1,13 +1,12 @@
 # Getting Started
 
-Welcome to the bookshop-java project. The following sections describe how to setup, build and deploy the project. It demonstrates a recommended project layout for CAP applications.
+Welcome to the bookshop-java project. The following sections describe how to setup, build and deploy the project on a local Tomcat server. It demonstrates a recommended project layout for CAP applications.
 
 ## Prerequisites 
 1.  Install **Java 8** (<https://tools.hana.ondemand.com/#cloud>) and set JAVA_HOME. 
 2.  Install **Apache Maven** (<https://maven.apache.org/download.cgi>) and set M2_HOME
 3.  Configure **Maven** for the SAP build landscape by downloading [settings.xml](http://nexus.wdf.sap.corp:8081/nexus/service/local/templates/settings/LeanDI/content) and save it to **<USER_HOME>/.m2/settings.xml**.
-4.  Install **Nodejs V8** and set the sap npm registry using the command:
- 
+4.  Install **Nodejs V8** and set the sap npm registry using the command: 
  ```
     npm set @sap:registry=https://npm.sap.com
  ```
@@ -24,7 +23,6 @@ Welcome to the bookshop-java project. The following sections describe how to set
 
 ## Setting up the project using Git
 1.  Clone the project into the desired location using the command below: 
-
 ```
   git clone https://github.wdf.sap.corp/caps/bookshop-java.git
 ```
