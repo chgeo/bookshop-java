@@ -21,7 +21,7 @@ Welcome to the bookshop-java project. The following sections describe how to set
 4.  Browse to the path where the tomcat sdk is located. Click Next.
 5.  Click Finish.
 
-## Setting up the project using Git
+## Importing the Project in Eclipse
 1.  Clone the project into the desired location using the command below: 
 ```
   git clone https://github.wdf.sap.corp/caps/bookshop-java.git
