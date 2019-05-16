@@ -26,7 +26,7 @@ Welcome to the bookshop-java project. The following sections describe how to set
 ```
   git clone https://github.wdf.sap.corp/caps/bookshop-java.git
 ```
-2.  Import the project as **SAP Cloud Business Application**. Give the path to where **mta.yaml** is located. Also tick the checkbox: Import service modules as Maven Projects. 
+2.  Import the project as **SAP Cloud Business Application** using **File>Import>SAP Cloud Business Application**. Give the path to where **mta.yaml** is located within the cloned repository. Also tick the checkbox: Import service modules as Maven Projects. 
 Now you see **bookshop-java** and **bookshop-java-srv** in the project/package explorer view.
 3.  Change the Projects Presentation from Flat to Hierarchical for better understanding.
 4.  Right click on the project, then go to the SAP Cloud Business Application and click Build.
