@@ -37,7 +37,7 @@ Now you see **bookshop-java** and **bookshop-java-srv** in the project/package e
   <http://localhost:8080/bookshop-java-srv/odata/v4/> \
   <http://localhost:8080/bookshop-java-srv/odata/v4/CatalogService/$metadata>
 
-## Connecting a HANA Database
+## Setting up a Database
 
 In order to connect the bookshop to a database, you need a SAP HANA and fill it with sample data. 
 
@@ -62,7 +62,7 @@ One way to do this is to get a HANA instance in SAP CP, create a service binding
 The application connects to the container, creates the tables and puts the data from the csv files into the tables. 
 The mapping between csv and the table columns is present in the **Data.hdbtabledata** file.
 
-## Setting up the **srv** module
+## Connecting the Java module to the Database
 1.  Update the **connection.properties** file under **/bookshop-java-srv/src/main/resources/**
 with the corresponding values of **VCAP_SERVICES** (see **step 2** under setting up **db** module)
 2.  Right click on the **bookshop-java-srv**(service module) and click on **build** under **Service module** option.
