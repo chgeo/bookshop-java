@@ -13,6 +13,7 @@
                         "import_columns": [
                                         "ID",
                                         "TITLE",
+                                        "DESCR",
                                         "AUTHOR_ID",
                                         "STOCK",
                                         "PRICE",
@@ -90,6 +91,73 @@
                                         "CODE",
                                         "SYMBOL",
                                         "NAME",
+                                        "DESCR"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "SAP_COMMON_COUNTRIES",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "-sap.common-Countries.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "CODE",
+                                        "NAME",
+                                        "DESCR"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "SAP_COMMON_COUNTRIES_TEXTS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "-sap.common-Countries_texts.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "CODE",
+                                        "LOCALE",
+                                        "NAME",
+                                        "DESCR"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "SAP_COMMON_CURRENCIES_TEXTS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "sap.common-Currencies_texts.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "CODE",
+                                        "LOCALE",
+                                        "NAME",
+                                        "DESCR"
+                                ]
+                        }
+                },
+                {
+                        "target_table": "MY_BOOKSHOP_BOOKS_TEXTS",
+                        "source_data": {
+                                "data_type": "CSV",
+                                "file_name": "my.bookshop-Books_texts.csv",
+                                "has_header": true,
+                                "type_config" : { "delimiter" : ";" }
+                        },
+                        "import_settings": {
+                        "import_columns": [
+                                        "ID",
+                                        "LOCALE",
+                                        "TITLE",
                                         "DESCR"
                                 ]
                         }
