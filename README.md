@@ -107,7 +107,7 @@ This generates the corresponding **csn.json** and service xml files under the **
         <!-- 
            Make sure that the <Context> order is same as below.
         -->
-+       <Context docBase="/home/D070324/work/CAP/git_projects/bookshop-java/node_modules/@sap/capm-samples-bookshop/app/" path=""/>
++       <Context docBase="/home/D070324/work/CAP/git_projects/bookshop-java/node_modules/@sap/capire-bookshop/app/" path=""/>
         <Context docBase="bookshop-java-srv" path="/bookshop-java-srv" reloadable="true" source="org.eclipse.jst.jee.server:bookshop-java-srv"/></Host>
   
     </Engine>
