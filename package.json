@@ -15,7 +15,7 @@
         "@sap/cds": "^3.5.2",
         "express": "^4.16.4",
         "hdb": "^0.17.0",
-        "@sap/capm-samples-bookshop": "git+https://github.wdf.sap.corp/caps/bookshop.git"
+        "@sap/capire-bookshop": "git+https://github.wdf.sap.corp/caps/bookshop.git"
     },
     "scripts": {
         "start": "cds run",
