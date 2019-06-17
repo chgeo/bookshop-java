@@ -27,7 +27,7 @@ resources:
   - name: bookshop-java-uaa
     type: com.sap.xs.uaa
     parameters:
-      service-plan: default
+      service-plan: application
       config:
         xsappname: bookshop-java-${space}
         tenant-mode: dedicated
