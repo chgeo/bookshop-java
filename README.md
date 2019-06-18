@@ -113,7 +113,7 @@ This generates the corresponding **csn.json** and service xml files under the **
     </Engine>
 ```
 8.  Right click on the service module(**bookshop-java-srv**) inside eclipse and run on Server.
-9.  Open the browser and put the url <http://localhost:8080/> in the address bar. The UI is now visible.
+9.  Open the browser and put the url <http://localhost:8080/fiori.html> in the address bar. The UI is now visible.
 
 ## Futher Reading
 1. [capire](https://github.wdf.sap.corp/pages/cap/)
