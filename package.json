@@ -17,6 +17,9 @@
     "hdb": "^0.17.0",
     "@sap/capire-bookshop": "git+https://github.wdf.sap.corp/caps/bookshop.git"
   },
+  "devDependencies": {
+    "sqlite": "^3.0.3"
+  },
   "scripts": {
     "start": "cds run",
     "build": "cds build/all --clean",
@@ -26,6 +29,15 @@
   "cds": {
     "odata": {
       "version": "v4"
+    },
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "model": [
+          "db",
+          "srv"
+        ]
+      }
     }
   }
 }
