@@ -25,12 +25,6 @@
     "cds": {
         "odata": {
             "version": "v4"
-        },
-        "service": {
-            "model": "srv/"
-        },
-        "data": {
-            "model": "db/"
         }
     }
 }
