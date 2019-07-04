@@ -26,3 +26,4 @@ default-env.json
 package-lock.json
 db/package-lock.json
 srv/.settings/org.eclipse.jdt.core.prefs
+*.db
