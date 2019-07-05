@@ -23,8 +23,8 @@
   "scripts": {
     "start": "cds run",
     "build": "cds build/all --clean",
-    "deploy": "cds deploy --to sqlite --no-save",
-    "deploy:hana": "cds deploy --to hana --no-save"
+    "deploy": "cds deploy --to sqlite",
+    "deploy:hana": "cds deploy --to hana"
   },
   "cds": {
     "odata": {
@@ -36,7 +36,17 @@
         "model": [
           "db",
           "srv"
-        ]
+        ],
+        "credentials": {
+          "database": "bookshop.db"
+        },
+        "[production]": {
+          "kind": "hana",
+          "model": [
+            "srv",
+            "db"
+          ]
+        }
       }
     }
   }
