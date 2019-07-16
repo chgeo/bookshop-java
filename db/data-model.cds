@@ -1,1 +1,1 @@
-using from '@sap/capm-samples-bookshop/db';
+using from '@sap/capire-bookshop/db';

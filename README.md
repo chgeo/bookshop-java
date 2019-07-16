@@ -73,7 +73,7 @@ This generates the corresponding **csn.json** and service xml files under the **
 2.  Delete all the deployed applications deployed on **Java Web Tomcat8 Server**, if any.
 3.  Double click on the **Java Web Tomcat8 Server** to open the Overview.
 4.  Under **Server Locations** drop-down, select **Use custom location**. Provide the **Server path**. It might be necessary to copy your server directory because eclipse does not allow to use the same directory to add the server and use it as custom location.
-5.  Create a file, **rewrite.config** inside **/Path-To-Tomcat/neo-java-web-sdk-3.75.12/conf/Catalina/localhost**
+5.  Create a file, **rewrite.config** inside **/Path-To-Tomcat/neo-java-web-sdk-3.75.12/conf/Catalina/localhost**. If the directory is not existing run the app once.
 6.  Add the lines below in the **rewrite.config** file: 
 
 ```
@@ -107,13 +107,13 @@ This generates the corresponding **csn.json** and service xml files under the **
         <!-- 
            Make sure that the <Context> order is same as below.
         -->
-+       <Context docBase="/home/D070324/work/CAP/git_projects/bookshop-java/node_modules/@sap/capm-samples-bookshop/app/" path=""/>
++       <Context docBase="/home/D070324/work/CAP/git_projects/bookshop-java/node_modules/@sap/capire-bookshop/app/" path=""/>
         <Context docBase="bookshop-java-srv" path="/bookshop-java-srv" reloadable="true" source="org.eclipse.jst.jee.server:bookshop-java-srv"/></Host>
   
     </Engine>
 ```
-5.  Right click on the service module(**bookshop-java-srv**) inside eclipse and run on Server.
-6.  Open the browser and put the url <http://localhost:8080/> in the address bar. The UI is now visible.
+8.  Right click on the service module(**bookshop-java-srv**) inside eclipse and run on Server.
+9.  Open the browser and put the url <http://localhost:8080/fiori.html> in the address bar. The UI is now visible.
 
 ## Futher Reading
 1. [capire](https://github.wdf.sap.corp/pages/cap/)
