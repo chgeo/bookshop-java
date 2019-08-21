@@ -1,8 +1,21 @@
-using from '@sap/capire-bookshop/srv/cat-service';
-using my.bookshop as my from '../db/data-model';
+using my.bookshop as db from '../db/schema';
+
+service CatalogService {
+
+  @readonly entity Books as projection on db.Books excluding {
+    createdBy, modifiedBy
+  };
+
+  @readonly entity Authors as projection on db.Authors excluding {
+    createdBy, modifiedBy
+  };
+
+  @requires: 'authenticated-user'
+  @insertonly entity Orders as projection on db.Orders;
+}
 
 extend service CatalogService with {
 
-  @insertonly entity OrderItems as projection on my.OrderItems;
+  @insertonly entity OrderItems as projection on db.OrderItems;
 
 }
