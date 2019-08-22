@@ -23,9 +23,6 @@
 
 		<node.version>v10.4.1</node.version>
 		<node.url>https://nodejs.org/dist/</node.url>
-		<npm.registry>https://registry.npmjs.org</npm.registry>
-		<sap.npm.registry>http://nexus.wdf.sap.corp:8081/nexus/content/groups/build.snapshots.npm/</sap.npm.registry>
-		<cds.version>latest</cds.version>
 	</properties>
 
 	<modules>
@@ -90,9 +87,7 @@
 								<goal>npm</goal>
 							</goals>
 							<configuration>
-								<arguments>install @sap/cds@${cds.version}
-									--registry=${npm.registry} --@sap:registry=${sap.npm.registry}
-									--no-save</arguments>
+								<arguments>install</arguments>
 							</configuration>
 						</execution>
 

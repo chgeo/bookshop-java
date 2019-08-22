@@ -4,6 +4,9 @@
         "schema": "cds compile srv --to sql > srv/src/main/resources/schema.sql",
         "deploy": "cds deploy"
     },
+    "devDependencies": {
+        "@sap/cds": "latest"
+    },
     "cds": {
         "build": {
             "target": "."
