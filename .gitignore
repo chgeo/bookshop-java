@@ -18,3 +18,5 @@ package-lock.json
 *.log*
 gc_history*
 hs_err*
+
+*.db

@@ -1,5 +1,26 @@
 ---
 spring:
+  profiles: cloud
+  datasource:
+    initialization-mode: never
+---
+spring:
+  profiles: local-hana
+  datasource:
+    url: "PLACEHOLDER"
+    username: "PLACEHOLDER"
+    password: "PLACEHOLDER"
+    driver-class-name: com.sap.db.jdbc.Driver
+    initialization-mode: never
+---
+spring:
+  profiles: local-sqlite
+  datasource:
+    url: "jdbc:sqlite:../db/bookshop.db"
+    driver-class-name: org.sqlite.JDBC
+    initialization-mode: never
+---
+spring:
   profiles: default
   datasource:
     url: "jdbc:sqlite::memory:"

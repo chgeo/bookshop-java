@@ -5,7 +5,8 @@
         "deploy": "cds deploy"
     },
     "devDependencies": {
-        "@sap/cds": "latest"
+        "@sap/cds": "latest",
+        "sqlite3": "^4.0.7"
     },
     "cds": {
         "build": {
@@ -19,7 +20,7 @@
                     "srv"
                 ],
                 "credentials": {
-                    "database": "sqlite.db"
+                    "database": "db/bookshop.db"
                 }
             }
         },
