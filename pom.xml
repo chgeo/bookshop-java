@@ -16,10 +16,9 @@
 
 		<!-- DEPENDENCIES VERSION -->
 		<jdk.version>1.8</jdk.version>
-		<cds.services.version>1.1.0-m1945</cds.services.version>
-		<cds4j.version>1.4.0</cds4j.version>
-		<spring.boot.version>2.1.5.RELEASE</spring.boot.version>
-		<ngdbc.version>2.4.59</ngdbc.version>
+		<cds.services.version>1.1.0-SNAPSHOT</cds.services.version>
+		<cds4j.version>1.4.1</cds4j.version>
+		<spring.boot.version>2.2.0.RELEASE</spring.boot.version>
 
 		<node.version>v10.4.1</node.version>
 		<node.url>https://nodejs.org/dist/</node.url>
@@ -47,13 +46,6 @@
 				<version>${spring.boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-
-			<!-- HANA -->
-			<dependency>
-				<groupId>com.sap.cloud.db.jdbc</groupId>
-				<artifactId>ngdbc</artifactId>
-				<version>${ngdbc.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -135,6 +127,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.boot.version}</version>
 				<configuration>
+					<fork>false</fork>
 					<skip>true</skip>
 				</configuration>
 			</plugin>

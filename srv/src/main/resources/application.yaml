@@ -1,28 +1,31 @@
 ---
 spring:
+  resources:
+    static-locations: "file:./app"
+cds:
+  security:
+    mock:
+      users:
+      - name: admin
+        password: admin
+        roles:
+        - admin
+      - name: user
+        password: user
+---
+spring:
   profiles: cloud
-  datasource:
-    initialization-mode: never
 ---
 spring:
-  profiles: local-hana
+  profiles: sqlite
   datasource:
-    url: "PLACEHOLDER"
-    username: "PLACEHOLDER"
-    password: "PLACEHOLDER"
-    driver-class-name: com.sap.db.jdbc.Driver
-    initialization-mode: never
----
-spring:
-  profiles: local-sqlite
-  datasource:
-    url: "jdbc:sqlite:../db/bookshop.db"
+    url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: never
 ---
 spring:
   profiles: default
   datasource:
-    url: "jdbc:sqlite::memory:"
+    url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: always

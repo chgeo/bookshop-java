@@ -1,12 +1,19 @@
 {
+    "name": "bookshop-java",
+    "version": "1.0.0",
+    "description": "Bookshop using CAP Java NG",
+    "license": "ISC",
+    "repository": "",
     "scripts": {
         "build": "cds build/all --clean",
         "schema": "cds compile srv --to sql > srv/src/main/resources/schema.sql",
         "deploy": "cds deploy"
     },
+    "dependencies": {
+        "@sap/cds": "^3.19.0"
+    },
     "devDependencies": {
-        "@sap/cds": "latest",
-        "sqlite3": "^4.0.7"
+        "sqlite3": "^4.1.0"
     },
     "cds": {
         "build": {
@@ -20,7 +27,7 @@
                     "srv"
                 ],
                 "credentials": {
-                    "database": "db/bookshop.db"
+                    "database": "sqlite.db"
                 }
             }
         },
