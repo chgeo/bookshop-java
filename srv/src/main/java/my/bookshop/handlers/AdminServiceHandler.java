@@ -76,6 +76,13 @@ public class AdminServiceHandler implements EventHandler {
 					throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Not enough books on stock");
 				}
 
+				// FIXME: this should not be necessary, as the net amount was already calculated in the
+				//   Before DRAFT_PATCH handler below. Unfortunately, the value will be set to null again,
+				//   because the field is marked read-only.
+				// update the net amount
+				BigDecimal updatedNetAmount = book.getPrice().multiply(BigDecimal.valueOf(orderItem.getAmount()));
+				orderItem.setNetAmount(updatedNetAmount);
+
 				// update the book with the new stock
 				book.setStock(book.getStock() - amount);
 				// catalogService.run(Update.entity(Books_.class).byId(book.getId()).data(book));
@@ -106,7 +113,6 @@ public class AdminServiceHandler implements EventHandler {
 			// update the net amount of the order item
 			BigDecimal updatedNetAmount = book.getPrice().multiply(BigDecimal.valueOf(amount));
 			orderItem.setNetAmount(updatedNetAmount);
-
 		});
 	}
 
