@@ -80,13 +80,12 @@ public class AdminServiceHandler implements EventHandler {
 				//   Before DRAFT_PATCH handler below. Unfortunately, the value will be set to null again,
 				//   because the field is marked read-only.
 				// update the net amount
-				BigDecimal updatedNetAmount = book.getPrice().multiply(BigDecimal.valueOf(orderItem.getAmount()));
+				BigDecimal updatedNetAmount = book.getPrice().multiply(BigDecimal.valueOf(amount));
 				orderItem.setNetAmount(updatedNetAmount);
 
 				// update the book with the new stock
 				book.setStock(book.getStock() - amount);
-				// catalogService.run(Update.entity(Books_.class).byId(book.getId()).data(book));
-				adminService.run(Update.entity(Books_.class).byId(book.getId()).data(book));
+				adminService.run(Update.entity(Books_.class).data(book));
 			});
 		});
 	}
@@ -102,7 +101,7 @@ public class AdminServiceHandler implements EventHandler {
 			}
 
 			// get the order item that was updated (to get access to the book ID)
-			String orderItemId = event.getParameterInfo().getQueryParameter("ID");
+			String orderItemId = event.getParameterInfo().getQueryParameter(OrderItems.ID);
 			Result result = adminService.run(Select.from(OrderItems_.class).byId(orderItemId));
 			OrderItems itemToPatch = result.first(OrderItems.class).orElseThrow(notFound("OrderItem does not exist"));
 
