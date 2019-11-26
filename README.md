@@ -27,7 +27,7 @@ Now you see **bookshop** and **bookshop-parent** in the project/package explorer
       Working directory > Other: "${workspace_loc:bookshop-parent}"
     
 4.  Use the following links in the browser to check if everything works fine:  
-  <http://localhost:8080/>:  This should show the automatically generated index page of served paths.
+  <http://localhost:8080/>:  This should show the automatically generated index page of served paths.  
   <http://localhost:8080/fiori.html>:  This is the actual bookshop application UI
 
 ## Database setup and Spring profiles
