@@ -34,7 +34,9 @@ import adminservice.Orders_;
 
 
 /**
- * Custom handler for the Admin Service
+ * Custom business logic for the "Admin Service" (see admin-service.cds)
+ *
+ * Handles creating and editing orders.
  */
 @Component
 @ServiceName(AdminService_.CDS_NAME)
@@ -43,6 +45,9 @@ public class AdminServiceHandler implements EventHandler {
 	@Resource(name = AdminService_.CDS_NAME)
 	private DraftService adminService;
 
+	/**
+	 * Finish an order
+	 */
 	@Before(event = { CdsService.EVENT_CREATE, CdsService.EVENT_UPSERT })
 	public void beforeCreateOrder(Stream<Orders> orders) {
 		orders.forEach(order -> {
@@ -81,6 +86,9 @@ public class AdminServiceHandler implements EventHandler {
 		});
 	}
 
+	/**
+	 * Calculate the net amount and total preview updated while editing an order
+	 */
 	@Before(event = DraftService.EVENT_DRAFT_PATCH)
 	public void patchOrderItems(DraftPatchEventContext event, Stream<OrderItems> orderItems) {
 		orderItems.forEach(orderItem -> {
@@ -95,6 +103,9 @@ public class AdminServiceHandler implements EventHandler {
 		});
 	}
 
+	/**
+	 * Calculate total preview when an order item is deleted
+	 */
 	@Before(event = DraftService.EVENT_DRAFT_CANCEL, entity = OrderItems_.CDS_NAME)
 	public void cancelOrderItems(DraftCancelEventContext event) {
 		String orderItemId = event.getParameterInfo().getQueryParameter(OrderItems.ID); // FIXME get from CQN
