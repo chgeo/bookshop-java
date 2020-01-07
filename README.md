@@ -4,7 +4,7 @@ Welcome to the bookshop-java project. It demonstrates a simple application built
 The following sections describe how to setup, build and run the project.
 
 ## Prerequisites 
-Make sure you have setup a development environment [as described here](https://github.wdf.sap.corp/pages/cap/java/overview#javalocaldev).
+Make sure you have setup a development environment (that is install the CDS Compiler, Java and Apache Maven) [as described here](https://github.wdf.sap.corp/pages/cap/java/getting-started#local).
 
 ## Importing the Project in Eclipse
 1.  Clone the project:
