@@ -3,9 +3,8 @@
 	"sap.app": {
 		"id": "orders",
 		"type": "application",
-		"title": "Manage Orders",
-		"description": "Sample Application",
-		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
 		"dataSources": {
 			"AdminService": {
 				"uri": "/api/admin/",

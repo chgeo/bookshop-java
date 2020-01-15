@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.Result;
@@ -23,6 +24,7 @@ import com.sap.cds.services.draft.DraftService;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.ServiceName;
+import com.sap.cds.services.messages.Messages;
 
 import cds.gen.adminservice.AdminService_;
 import cds.gen.adminservice.Books;
@@ -31,6 +33,7 @@ import cds.gen.adminservice.OrderItems;
 import cds.gen.adminservice.OrderItems_;
 import cds.gen.adminservice.Orders;
 import cds.gen.adminservice.Orders_;
+import my.bookshop.MessageKeys;
 
 
 /**
@@ -45,6 +48,9 @@ public class AdminServiceHandler implements EventHandler {
 	@Resource(name = AdminService_.CDS_NAME)
 	private DraftService adminService;
 
+	@Autowired
+	private Messages messages;
+
 	/**
 	 * Finish an order
 	 * @param orders
@@ -58,19 +64,22 @@ public class AdminServiceHandler implements EventHandler {
 				// validation of the request
 				Integer amount = orderItem.getAmount();
 				if (amount == null || amount <= 0) {
-					throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Order at least 1 book");
+					// exceptions with localized messages from property files
+					// exceptions abort the request and set an error http status code
+					throw new ServiceException(ErrorStatuses.BAD_REQUEST, MessageKeys.AMOUNT_REQUIRE_MINIMUM);
 				}
 
 				String id = orderItem.getBookId();
 				if (id == null) {
+					// using static text without localization is still possible in exceptions and messages
 					throw new ServiceException(ErrorStatuses.BAD_REQUEST, "You have to specify the book to order");
 				}
 
 				// check if enough books are available
 				Result result = adminService.run(Select.from(Books_.class).byId(id));
-				Books book = result.first(Books.class).orElseThrow(notFound("Book does not exist"));
+				Books book = result.first(Books.class).orElseThrow(notFound(MessageKeys.BOOK_MISSING));
 				if (book.getStock() < amount) {
-					throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Not enough books on stock");
+					throw new ServiceException(ErrorStatuses.BAD_REQUEST, MessageKeys.BOOK_REQUIRE_STOCK);
 				}
 
 				// update the net amount
@@ -123,13 +132,20 @@ public class AdminServiceHandler implements EventHandler {
 			return null; // nothing changed
 		}
 
+		// only warn about invalid values in draft mode
+		if(amount != null && amount <= 0) {
+			// additional messages with localized messages from property files
+			// these messages are transported in sap-messages and do not abort the request
+			messages.warn(MessageKeys.AMOUNT_REQUIRE_MINIMUM);
+		}
+
 		// get the order item that was updated (to get access to the book price, amount and order total)
 		Result result = adminService.run(Select.from(OrderItems_.class)
 				.columns(o -> o.amount(), o -> o.netAmount(),
 						o -> o.book().expand(b -> b.ID(), b -> b.price()),
 						o -> o.parent().expand(p -> p.ID(), p -> p.total()))
 				.where(o -> o.ID().eq(orderItemId).and(o.IsActiveEntity().eq(false))));
-		OrderItems itemToPatch = result.first(OrderItems.class).orElseThrow(notFound("OrderItem does not exist"));
+		OrderItems itemToPatch = result.first(OrderItems.class).orElseThrow(notFound(MessageKeys.ORDERITEM_MISSING));
 		BigDecimal bookPrice = null;
 
 		// fallback to existing values
@@ -149,7 +165,7 @@ public class AdminServiceHandler implements EventHandler {
 		// get the price of the updated book ID
 		if(bookPrice == null) {
 			result = adminService.run(Select.from(Books_.class).byId(bookId).columns(b -> b.price()));
-			Books book = result.first(Books.class).orElseThrow(notFound("Book does not exist"));
+			Books book = result.first(Books.class).orElseThrow(notFound(MessageKeys.BOOK_MISSING));
 			bookPrice = book.getPrice();
 		}
 

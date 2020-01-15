@@ -29,25 +29,25 @@ annotate AdminService.Orders with @(
 		//
 		SelectionFields: [ createdAt, createdBy ],
 		LineItem: [
-			{Value: createdBy, Label:'Customer'},
-			{Value: total, Label: 'Order Value' },
-			{Value: createdAt, Label:'Date'}
+			{Value: createdBy, Label:'{i18n>CreatedBy}'},
+			{Value: total, Label: '{i18n>Total}' },
+			{Value: createdAt, Label:'{i18n>CreatedAt}'}
 		],
 		////////////////////////////////////////////////////////////////////////////
 		//
 		//	Order Details
 		//
 		HeaderInfo: {
-			TypeName: 'Order', TypeNamePlural: 'Orders',
+			TypeName: '{i18n>Order}', TypeNamePlural: '{i18n>Orders}',
 			Title: {
-				Label: 'Order number ', //A label is possible but it is not considered on the ObjectPage yet
+				Label: '{i18n>OrderNumber}', //A label is possible but it is not considered on the ObjectPage yet
 				Value: OrderNo
 			},
 			Description: {Value: createdBy}
 		},
 		Identification: [ //Is the main field group
-			{Value: createdBy, Label:'Customer'},
-			{Value: createdAt, Label:'Date'},
+			{Value: createdBy, Label:'{i18n>CreatedBy}'},
+			{Value: createdAt, Label:'{i18n>CreatedAt}'},
 			{Value: OrderNo },
 		],
 		HeaderFacets: [
@@ -60,8 +60,8 @@ annotate AdminService.Orders with @(
 		],
 		FieldGroup#Details: {
 			Data: [
-				{Value: total, Label:'Total'},
-				{Value: currency_code, Label:'Currency'}
+				{Value: total, Label:'{i18n>Total}'},
+				{Value: currency_code, Label:'{i18n>Currency}'}
 			]
 		},
 		FieldGroup#Created: {
@@ -113,7 +113,7 @@ annotate AdminService.Orders with @(
 annotate AdminService.OrderItems with @(
 	UI: {
 		HeaderInfo: {
-			TypeName: 'Order Item', TypeNamePlural: '	',
+			TypeName: '{i18n>OrderItem}', TypeNamePlural: '{i18n>OrderItems}',
 			Title: {
 				Value: book.title
 			},
@@ -126,20 +126,20 @@ annotate AdminService.OrderItems with @(
 		//	Lists of OrderItems
 		//
 		LineItem: [
-			{Value: book_ID, Label:'Book'},
+			{Value: book_ID, Label:'{i18n>Books}'},
 			//The following entry is only used to have the assoication followed in the read event
-			{Value: book.price, Label:'Book Price'},
-			{Value: amount, Label:'Quantity'},
-			{Value: netAmount, Label: 'Net amount'}
+			{Value: book.price, Label:'{i18n>BookPrice}'},
+			{Value: amount, Label:'{i18n>Amount}'},
+			{Value: netAmount, Label: '{i18n>NetAmount}'}
 		],
 		Identification: [ //Is the main field group
-			//{Value: ID, Label:'ID'}, //A guid shouldn't be on the UI
-			{Value: book_ID, Label:'Book'},
-			{Value: amount, Label:'Amount'},
-			{Value: netAmount, Label: 'Net amount'}
+			//{Value: ID, Label:'{i18n>ID}'}, //A guid shouldn't be on the UI
+			{Value: book_ID, Label:'{i18n>Book}'},
+			{Value: amount, Label:'{i18n>Amount}'},
+			{Value: netAmount, Label: '{i18n>NetAmount}'}
 		],
 		Facets: [
-			{$Type: 'UI.ReferenceFacet', Label: '{i18n>OrderItems}', Target: '@UI.Identification'},
+			{$Type: 'UI.ReferenceFacet', Label: '{i18n>OrderItem}', Target: '@UI.Identification'},
 		],
 	},
 	Common: {

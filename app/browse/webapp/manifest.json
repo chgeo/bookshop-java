@@ -3,9 +3,8 @@
     "sap.app": {
         "id": "bookshop",
         "type": "application",
-        "title": "Browse Books",
-        "description": "Sample Application",
-        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
         "dataSources": {
             "CatalogService": {
                 "uri": "/api/browse/",
