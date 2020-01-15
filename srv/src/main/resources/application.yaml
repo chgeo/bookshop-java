@@ -1,20 +1,20 @@
 ---
 spring:
-  resources:
-    static-locations: "file:./app"
+  resources.static-locations: "file:./app"
 cds:
-  security:
-    mock:
-      users:
-      - name: admin
-        password: admin
-        roles:
-        - admin
-      - name: user
-        password: user
+  odatav4.endpoint.path: "/api"
+  security.mock.users:
+    - name: admin
+      password: admin
+      roles:
+      - admin
+    - name: user
+      password: user
+
 ---
 spring:
   profiles: cloud
+
 ---
 spring:
   profiles: sqlite
@@ -22,6 +22,7 @@ spring:
     url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: never
+
 ---
 spring:
   profiles: default

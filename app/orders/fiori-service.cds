@@ -85,6 +85,15 @@ annotate AdminService.Orders with @(
 			TargetProperties: [
 				total
 			]
+		},
+		SideEffects#CurrencyChanges: {
+			SourceProperties: [
+				currency_code
+			],
+			TargetProperties: [
+				currency.code,
+				total
+			]
 		}
 	}
 ) {

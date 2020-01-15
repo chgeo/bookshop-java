@@ -20,15 +20,10 @@
 			<groupId>com.sap.cds</groupId>
 			<artifactId>cds-starter-spring-boot-odata</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.sap.cds</groupId>
-			<artifactId>cds-feature-cloudfoundry</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.sap.cds</groupId>
-			<artifactId>cds-feature-hana</artifactId>
+			<artifactId>cds-starter-cloudfoundry</artifactId>
 		</dependency>
 
 		<dependency>
@@ -38,7 +33,8 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -104,6 +100,7 @@
 				<version>${cds4j.version}</version>
 				<configuration>
 					<outputDirectory>${project.basedir}/src/gen</outputDirectory>
+					<basePackage>cds.gen</basePackage>
 				</configuration>
 				<executions>
 					<execution>

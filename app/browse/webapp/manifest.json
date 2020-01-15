@@ -8,7 +8,7 @@
         "i18n": "i18n/i18n.properties",
         "dataSources": {
             "CatalogService": {
-                "uri": "/odata/v4/CatalogService/",
+                "uri": "/api/browse/",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "4.0"

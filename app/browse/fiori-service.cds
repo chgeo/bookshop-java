@@ -6,6 +6,9 @@ using CatalogService from '../../srv/cat-service';
 //
 annotate CatalogService.Books with @(
 	UI: {
+		HeaderInfo: {
+			Description: {Value: author}
+		},
 		HeaderFacets: [
 			{$Type: 'UI.ReferenceFacet', Label: '{i18n>Description}', Target: '@UI.FieldGroup#Descr'},
 		],
@@ -24,4 +27,21 @@ annotate CatalogService.Books with @(
 			]
 		},
 	}
+);
+
+
+////////////////////////////////////////////////////////////////////////////
+//
+//	Books Object Page
+//
+annotate CatalogService.Books with @(
+	UI: {
+	  SelectionFields: [ ID, price, currency_code ],
+		LineItem: [
+			{Value: title},
+			{Value: author, Label:'{i18n>Author}'},
+			{Value: price},
+			{Value: currency.symbol, Label:' '},
+		]
+	},
 );

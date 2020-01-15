@@ -24,13 +24,13 @@ import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.ServiceName;
 
-import adminservice.AdminService_;
-import adminservice.Books;
-import adminservice.Books_;
-import adminservice.OrderItems;
-import adminservice.OrderItems_;
-import adminservice.Orders;
-import adminservice.Orders_;
+import cds.gen.adminservice.AdminService_;
+import cds.gen.adminservice.Books;
+import cds.gen.adminservice.Books_;
+import cds.gen.adminservice.OrderItems;
+import cds.gen.adminservice.OrderItems_;
+import cds.gen.adminservice.Orders;
+import cds.gen.adminservice.Orders_;
 
 
 /**
@@ -47,6 +47,7 @@ public class AdminServiceHandler implements EventHandler {
 
 	/**
 	 * Finish an order
+	 * @param orders
 	 */
 	@Before(event = { CdsService.EVENT_CREATE, CdsService.EVENT_UPSERT })
 	public void beforeCreateOrder(Stream<Orders> orders) {
@@ -88,14 +89,16 @@ public class AdminServiceHandler implements EventHandler {
 
 	/**
 	 * Calculate the net amount and total preview updated while editing an order
+	 * @param context
+	 * @param orderItems
 	 */
 	@Before(event = DraftService.EVENT_DRAFT_PATCH)
-	public void patchOrderItems(DraftPatchEventContext event, Stream<OrderItems> orderItems) {
+	public void patchOrderItems(DraftPatchEventContext context, Stream<OrderItems> orderItems) {
 		orderItems.forEach(orderItem -> {
 			// check if amount or book was updated
 			Integer amount = orderItem.getAmount();
 			String bookId = orderItem.getBookId();
-			String orderItemId = event.getParameterInfo().getQueryParameter(OrderItems.ID); // FIXME get from CQN
+			String orderItemId = context.getParameterInfo().getQueryParameter(OrderItems.ID); // FIXME get from CQN
 			BigDecimal netAmount = calculateNetAmountInDraft(orderItemId, amount, bookId);
 			if(netAmount != null) {
 				orderItem.setNetAmount(netAmount);
@@ -105,10 +108,11 @@ public class AdminServiceHandler implements EventHandler {
 
 	/**
 	 * Calculate total preview when an order item is deleted
+	 * @param context
 	 */
 	@Before(event = DraftService.EVENT_DRAFT_CANCEL, entity = OrderItems_.CDS_NAME)
-	public void cancelOrderItems(DraftCancelEventContext event) {
-		String orderItemId = event.getParameterInfo().getQueryParameter(OrderItems.ID); // FIXME get from CQN
+	public void cancelOrderItems(DraftCancelEventContext context) {
+		String orderItemId = context.getParameterInfo().getQueryParameter(OrderItems.ID); // FIXME get from CQN
 		calculateNetAmountInDraft(orderItemId, 0, null);
 	}
 
