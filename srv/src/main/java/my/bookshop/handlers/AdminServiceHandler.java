@@ -76,7 +76,7 @@ public class AdminServiceHandler implements EventHandler {
 				}
 
 				// check if enough books are available
-				Result result = adminService.run(Select.from(Books_.class).byId(id));
+				Result result = adminService.run(Select.from(Books_.class).columns(b -> b.ID(), b -> b.stock(), b -> b.price()).byId(id));
 				Books book = result.first(Books.class).orElseThrow(notFound(MessageKeys.BOOK_MISSING));
 				if (book.getStock() < amount) {
 					throw new ServiceException(ErrorStatuses.BAD_REQUEST, MessageKeys.BOOK_REQUIRE_STOCK);
@@ -132,13 +132,6 @@ public class AdminServiceHandler implements EventHandler {
 			return null; // nothing changed
 		}
 
-		// only warn about invalid values in draft mode
-		if(amount != null && amount <= 0) {
-			// additional messages with localized messages from property files
-			// these messages are transported in sap-messages and do not abort the request
-			messages.warn(MessageKeys.AMOUNT_REQUIRE_MINIMUM);
-		}
-
 		// get the order item that was updated (to get access to the book price, amount and order total)
 		Result result = adminService.run(Select.from(OrderItems_.class)
 				.columns(o -> o.amount(), o -> o.netAmount(),
@@ -153,13 +146,20 @@ public class AdminServiceHandler implements EventHandler {
 			amount = itemToPatch.getAmount();
 		}
 
-		if(bookId == null) {
+		if(bookId == null && itemToPatch.getBook() != null) {
 			bookId = itemToPatch.getBook().getId();
 			bookPrice = itemToPatch.getBook().getPrice();
 		}
 
 		if(amount == null || bookId == null) {
 			return null; // not enough data available
+		}
+
+		// only warn about invalid values in draft mode
+		if(amount <= 0) {
+			// additional messages with localized messages from property files
+			// these messages are transported in sap-messages and do not abort the request
+			messages.warn(MessageKeys.AMOUNT_REQUIRE_MINIMUM);
 		}
 
 		// get the price of the updated book ID
