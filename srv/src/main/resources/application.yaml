@@ -3,13 +3,6 @@ spring:
   resources.static-locations: "file:./app"
 cds:
   odatav4.endpoint.path: "/api"
-  security.mock.users:
-    - name: admin
-      password: admin
-      roles:
-      - admin
-    - name: user
-      password: user
 
 ---
 spring:
@@ -17,15 +10,15 @@ spring:
 
 ---
 spring:
-  profiles: sqlite
+  profiles: default
   datasource:
-    url: "jdbc:sqlite:sqlite.db"
+    url: "jdbc:sqlite:/home/user/projects/bookshop-java/sqlite.db"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: never
 
 ---
 spring:
-  profiles: default
+  profiles: sqlite-inmem
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
