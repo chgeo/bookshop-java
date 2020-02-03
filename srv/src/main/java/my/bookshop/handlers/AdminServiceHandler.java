@@ -68,7 +68,7 @@ public class AdminServiceHandler implements EventHandler {
 				Result result = db.run(Select.from(Books_.class).columns(b -> b.ID(), b -> b.stock(), b -> b.price()).byId(id));
 				Books book = result.first(Books.class).orElseThrow(notFound(MessageKeys.BOOK_MISSING));
 				if (book.getStock() < amount) {
-					throw new ServiceException(ErrorStatuses.BAD_REQUEST, MessageKeys.BOOK_REQUIRE_STOCK);
+					throw new ServiceException(ErrorStatuses.BAD_REQUEST, MessageKeys.BOOK_REQUIRE_STOCK, amount, book.getId());
 				}
 
 				// update the net amount
@@ -78,7 +78,6 @@ public class AdminServiceHandler implements EventHandler {
 				order.setTotal(order.getTotal().add(updatedNetAmount));
 
 				// update the book with the new stock
-				// FIXME this should only update the diff amount and handle book changes
 				book.setStock(book.getStock() - amount);
 				db.run(Update.entity(Books_.class).data(book));
 			});
