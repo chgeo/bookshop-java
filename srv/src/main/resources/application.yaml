@@ -10,11 +10,12 @@ spring:
 
 ---
 spring:
-  profiles: sqlite-predeployed
+  profiles: local_dev
   datasource:
     url: "jdbc:sqlite:/home/user/projects/bookshop-java/sqlite.db"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: never # to be filled with `npm run deploy`
+  resources.static-locations: "file:/home/user/projects/bookshop-java/app" # for fast UI-dev turnarounds
 
 ---
 spring:
