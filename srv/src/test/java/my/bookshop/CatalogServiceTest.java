@@ -28,8 +28,6 @@ import cds.gen.my.bookshop.Books_;
 @AutoConfigureMockMvc
 public class CatalogServiceTest {
 
-	private static final String booksURI = "/api/browse/Books";
-
 	@Autowired
 	PersistenceService db;
 
@@ -51,7 +49,7 @@ public class CatalogServiceTest {
 
 	@Test
 	public void testDiscount() throws Exception {
-		mockMvc.perform(get(booksURI))
+		mockMvc.perform(get("/api/browse/Books"))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.value[0].title").value(not(containsString("11% discount"))))
 		.andExpect(jsonPath("$.value[0].stock").value(100))
