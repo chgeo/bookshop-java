@@ -10,17 +10,16 @@ spring:
 
 ---
 spring:
-  profiles: default
+  profiles: sqlite
   datasource:
     url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
-    initialization-mode: never   # to be filled with `npm run deploy`
+    initialization-mode: never
     hikari:
       maximum-pool-size: 1
-
 ---
 spring:
-  profiles: sqlite
+  profiles: default
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC

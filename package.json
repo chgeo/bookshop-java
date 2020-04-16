@@ -7,8 +7,7 @@
     "scripts": {
         "build": "cds build/all --clean",
         "schema": "cds compile srv --to sql > srv/src/main/resources/schema.sql",
-        "deploy": "cds deploy",
-        "postinstall": "npm run deploy"
+        "deploy": "cds deploy"
     },
     "dependencies": {
         "@sap/cds": "^3.19.0"
