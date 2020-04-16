@@ -1,6 +1,6 @@
 ---
 spring:
-  resources.static-locations: "file:./app"
+  resources.static-locations: "file:./app"  # for fast UI-dev turnarounds
 cds:
   odatav4.endpoint.path: "/api"
 
@@ -12,15 +12,18 @@ spring:
 spring:
   profiles: default
   datasource:
-    url: "jdbc:sqlite:/home/user/projects/bookshop-java/sqlite.db"
+    url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
-    initialization-mode: never # to be filled with `npm run deploy`
-  resources.static-locations: "file:/home/user/projects/bookshop-java/app" # for fast UI-dev turnarounds
+    initialization-mode: never   # to be filled with `npm run deploy`
+    hikari:
+      maximum-pool-size: 1
 
 ---
 spring:
-  profiles: test
+  profiles: sqlite
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
     initialization-mode: always
+    hikari:
+      maximum-pool-size: 1
