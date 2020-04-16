@@ -10,7 +10,7 @@ spring:
 
 ---
 spring:
-  profiles: local_dev
+  profiles: default
   datasource:
     url: "jdbc:sqlite:/home/user/projects/bookshop-java/sqlite.db"
     driver-class-name: org.sqlite.JDBC
@@ -19,7 +19,7 @@ spring:
 
 ---
 spring:
-  profiles: default
+  profiles: test
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
